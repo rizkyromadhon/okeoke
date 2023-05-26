@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('container')
+@section('content')
     <div class="row justify-content-center">
         <div class="col-lg-4 mt-3">
             @if (session()->has('success'))
@@ -34,19 +34,25 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password"
                             class="rounded text-dark @error('password') is-invalid @enderror" placeholder="Password">
+                        <div class="form-check mt-1">
+                            <input type="checkbox" class="form-check-input" onclick="togglePasswordVisibility()"
+                                id="exampleCheck1" style="width:15px;">
+                            <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                        </div>
                         @error('password')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                        <div class="forgot">
-                            <a rel="noopener noreferrer" href="/forgot">Forgot Password ?</a>
-                        </div>
                     </div>
-                    <button class="sign" type="submit">Login</button>
+                    <div class="forgot" style="float:left;">
+                        <a rel="noopener noreferrer" href="/forgot">Forgot Password ?</a>
+                    </div>
+
+                    <button class="sign bg-primary text-light" type="submit">Login</button>
                 </form>
-                <p class="signup mt-2">Not registered yet?
-                    <a rel="noopener noreferrer" href="/register" class="">Register Now!</a>
+                <p class="signup mt-2">Belum terdaftar?
+                    <a rel="noopener noreferrer" href="/register" class="">Daftar Sekarang!</a>
                 </p>
             </main>
         </div>

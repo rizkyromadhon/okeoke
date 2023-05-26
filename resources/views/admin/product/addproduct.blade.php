@@ -10,6 +10,15 @@
                     <small class="text-muted float-end">Input Information</small>
                 </div>
                 <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{ route('storeproduct') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">

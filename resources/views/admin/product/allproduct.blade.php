@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @section('container')
-    <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="container-xxl flex-grow-1 container-p-y mb-5">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Page/</span> All Product</h4>
         @if (session()->has('message'))
             <div class="alert alert-success">
@@ -22,16 +22,23 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td>1</td>
-                            <td>Lenovo Ideapad Slim 3</td>
-                            <td></td>
-                            <td>6.500.000</td>
-                            <td>
-                                <a href="" class="btn btn-primary">Edit</a>
-                                <a href="" class="btn btn-warning">Delete</a>
-                            </td>
-                        </tr>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->product_name }}</td>
+                                <td>
+                                    <img style="height: 100px;" src="{{ asset($product->product_img) }}" alt="">
+                                    <br>
+                                    <a href="{{ route('editproductimg', $product->id) }}" class="btn btn-primary">Update
+                                        Image</a>
+                                </td>
+                                <td>@currency($product->price)</td>
+                                <td>
+                                    <a href="{{ route('editproduct', $product->id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ route('deleteproduct', $product->id) }}" class="btn btn-warning">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
