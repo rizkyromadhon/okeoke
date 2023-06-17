@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container mt-5 mb-5">
-        <h1 class="fw-bold">Keranjang</h1>
+    <div class="container mt-5" style="margin-bottom: 150px;" id="section-content">
+        <h1 class="fw-bold" id="section-content">Keranjang</h1>
         @if (session()->has('message'))
             <div class="alert alert-success">
                 {{ session()->get('message') }}

@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\ShippingInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 class ClientController extends Controller
 {
@@ -22,7 +24,11 @@ class ClientController extends Controller
     public function singleProduct($id) {
         $product = Product::findOrFail($id);
         $subcat_id = Product::where('id', $id)->value('product_subcategory_id');
-        $related_products = Product::where('product_subcategory_id', $subcat_id)->latest()->get();
+        $related_products = Product::where('product_subcategory_id', $subcat_id)->where('quantity', '>', 0)->latest()->get();
+
+        $product = Product::find($id);
+        $product->refresh();
+
         return view('product', compact('product', 'related_products'), [
             "title" => 'Product Page'
         ]);
@@ -32,21 +38,32 @@ class ClientController extends Controller
         $userid = Auth::id();
         $cart_items = Cart::where('user_id', $userid)->latest()->get();
         return view('addtocart',compact('cart_items'), [
-            "title" => 'Add to Cart Page'
+            "title" => 'Cart Page'
         ]);
     }
 
     public function addProductToCart(Request $request) {
         $product_price = $request->price;
+        $product = Product::find($request->product_id);
         $quantity = $request->quantity;
+        $stock = $request->input('quantity');
+        if ($stock > $product->quantity) {
+            return back()->with('stock', '');
+        }
+
+        $stock = $request->quantity;
+        $product->quantity -= $stock;
+        $product->save();
+       
         $price = $product_price * $quantity;
+
         Cart::insert([
             'product_id' => $request->product_id,
             'user_id' => Auth::id(),
-            'quantity' => $request->quantity,
-            'price' => $price,
+            'quantity' => $quantity,
+            'price' =>  $price,
         ]);
-
+          
         return redirect()->route('addtocart')->with('message', 'Berhasil menambahkan produk ke keranjang!!');
     }
 

@@ -5,7 +5,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container" id="section-content">
         @if (session()->has('message'))
             <div class="container alert alert-danger alert-dismissible fade show" role="alert" style="width:400px;">
                 {{ session('message') }}
@@ -63,31 +63,105 @@
                         <div class="product_2">
                             <div class="row">
                                 @foreach ($allproducts as $product)
-                                    <div class="col-lg-4 col-sm-4">
-                                        <div class="box">
-                                            <h4 class="shirt_text">{{ $product->product_name }}</h4>
-                                            <p class="price_text"><span style="color: #262626;">
-                                                    @currency($product->price)</span></p>
-                                            <div class="tshirt_img"><img src="{{ asset($product->product_img) }}">
-                                            </div>
-                                            <div class="btn_main">
-                                                <div class="buy_bt">
-                                                    <form action="{{ route('addproducttocart') }}" method="POST">
-                                                        @csrf
-                                                        <input class="btn btn-primary" type="submit" value="Beli Langsung">
-                                                        <input type="hidden" value="{{ $product->id }}" name="product_id">
-                                                        <input type="hidden" value="{{ $product->price }}" name="price">
-                                                        <input type="hidden" value="1" name="quantity">
-                                                        <br>
-                                                    </form>
+                                    @if ($product->quantity == 0)
+                                        <div class="col-lg-4 col-sm-2">
+                                            <div class="box">
+                                                <h4 class="product_name">{{ $product->product_name }}</h4>
+                                                <p class="price_text"><span style="color: #262626;">
+                                                        @currency($product->price)</span></p>
+                                                <div class="product_img_2"><img src="{{ asset($product->product_img) }}">
                                                 </div>
-                                                <div class="seemore_bt">
-                                                    <a href="{{ route('singleproduct', [$product->id, $product->slug]) }}"
-                                                        class="btn btn-primary" class="">Lihat Detail</a>
+                                                @if ($product->quantity == 0)
+                                                    <div class="alert alert-danger">
+                                                        Barang ini sudah habis.
+                                                    </div>
+                                                @endif
+                                                <div class="btn_main">
+                                                    <div class="buy_bt">
+                                                        @if ($product->quantity > 0)
+                                                            <form action="{{ route('addproducttocart') }}" method="POST">
+                                                                @csrf
+                                                                <input class="btn btn-primary" type="submit"
+                                                                    value="Beli Langsung" name="" id="">
+                                                                <input type="hidden" value="{{ $product->id }}"
+                                                                    name="product_id">
+                                                                <input type="hidden" value="{{ $product->price }}"
+                                                                    name="price">
+                                                                <input type="hidden" value="1" name="quantity">
+                                                                <br>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('addproducttocart') }}" method="POST">
+                                                                @csrf
+                                                                <input class="btn btn-primary" type="submit"
+                                                                    value="Beli Langsung" name="" id=""
+                                                                    disabled>
+                                                                <input type="hidden" value="{{ $product->id }}"
+                                                                    name="product_id">
+                                                                <input type="hidden" value="{{ $product->price }}"
+                                                                    name="price">
+                                                                <input type="hidden" value="1" name="quantity">
+                                                                <br>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                    <div class="seemore_bt">
+                                                        <a href="{{ route('singleproduct', [$product->id, $product->slug]) }}"
+                                                            class="btn btn-primary" class="">Lihat Detail</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="col-lg-4 col-sm-4">
+                                            <div class="box">
+                                                <h4 class="product_name">{{ $product->product_name }}</h4>
+                                                <p class="price_text"><span style="color: #262626;">
+                                                        @currency($product->price)</span></p>
+                                                <div class="product_img_2"><img src="{{ asset($product->product_img) }}">
+                                                </div>
+                                                <div class="alert alert-success">
+                                                    Stok barang sisa {{ $product->quantity }}.
+                                                </div>
+                                                <div class="btn_main">
+                                                    <div class="buy_bt">
+                                                        @if ($product->quantity > 0)
+                                                            <form action="{{ route('addproducttocart') }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <input class="btn btn-primary" type="submit"
+                                                                    value="Beli Langsung" name="" id="">
+                                                                <input type="hidden" value="{{ $product->id }}"
+                                                                    name="product_id">
+                                                                <input type="hidden" value="{{ $product->price }}"
+                                                                    name="price">
+                                                                <input type="hidden" value="1" name="quantity">
+                                                                <br>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('addproducttocart') }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <input class="btn btn-primary" type="submit"
+                                                                    value="Beli Langsung" name="" id=""
+                                                                    disabled>
+                                                                <input type="hidden" value="{{ $product->id }}"
+                                                                    name="product_id">
+                                                                <input type="hidden" value="{{ $product->price }}"
+                                                                    name="price">
+                                                                <input type="hidden" value="1" name="quantity">
+                                                                <br>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                    <div class="seemore_bt">
+                                                        <a href="{{ route('singleproduct', [$product->id, $product->slug]) }}"
+                                                            class="btn btn-primary" class="">Lihat Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -95,40 +169,4 @@
                 </div>
             </div>
         </div>
-
-        <article class="box mt-4">
-            <div class="row">
-                <div class="col-md-4">
-                    <figure class="item-feature">
-                        <span class="text-primary d-flex justify-content-center"><i class="bi bi-truck"
-                                style="font-size:2rem;"></i></span>
-                        <figcaption class="pt-3">
-                            <h5 class="title">Pengiriman cepat</h5>
-                            <p> Untuk layanan pengiriman standar, tersedia Pengiriman Cepat hingga 1-3 hari. </p>
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="col-md-4">
-                    <figure class="item-feature">
-                        <span class="text-primary d-flex justify-content-center"><i class="bi bi-wallet2"
-                                style="font-size:2rem;"></i></span>
-                        <figcaption class="pt-3">
-                            <h5 class="title">Murah</h5>
-                            <p>Kami menyediakan barang-barang premium dengan harga yang murah, dibandingkan dengan
-                                toko-toko lain.</p>
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="col-md-4">
-                    <figure class="item-feature">
-                        <span class="text-primary d-flex justify-content-center"><i class="bi bi-patch-check-fill"
-                                style="font-size:2rem;"></i></span>
-                        <figcaption class="pt-3">
-                            <h5 class="title">Terverifikasi</h5>
-                            <p>Toko kami telah diverifikasi dan telah terdaftar sebagai toko resmi di Indonesia.</p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </article>
     @endsection

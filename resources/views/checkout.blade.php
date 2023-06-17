@@ -1,8 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container mt-5">
-        <h2 class="fw-semibold">Ini halaman terakhir dari proses belanjamu. Pastikan semua sudah benar, ya. :)</h2>
+    <div class="container mt-5 mb-5" id="section-content">
+        <h3 class="fw-semibold" id="section-content">Ini halaman terakhir dari proses belanjamu. Pastikan semua sudah benar,
+            ya. :)</h3>
         <div class="row">
             <div class="col-6">
                 <div class="box">

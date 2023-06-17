@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="section-content">
         <div class="col-lg-4 mt-3">
-            <main class="form-registration bg-dark mb-5">
+            <main class="form-registration mb-5">
                 <p class="title">Form Registrasi</p>
                 <form action="/register" method="post">
                     @csrf
@@ -51,12 +51,11 @@
                             </div>
                         @enderror
                     </div>
-                    <div class="mb-3 mt-1 form-check">
-                        <input type="checkbox" class="form-check-input" onclick="togglePasswordVisibility()"
-                            id="exampleCheck1" style="width:15px;">
-                        <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                    <div class="form-checks mt-1">
+                        <input type="checkbox" class="form-check-inputs" onclick="togglePasswordVisibility()"
+                            id="exampleCheck1" style="width:15px; height:15px;">
+                        <label class="form-check-labels" for="exampleCheck1">Show Password</label>
                     </div>
-
                     <button class="sign mt-4 bg-primary text-light" type="submit">Daftar</button>
                 </form>
                 <p class="signup mt-2">Sudah terdaftar?

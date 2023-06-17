@@ -50,6 +50,31 @@ html {
     -ms-overflow-style: scrollbar;
     -webkit-tap-highlight-color: transparent;
 }
+
+.navbar {
+    background: black;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.btn {
+    color: white;
+}
+
+.btn-admin {
+    color: black;
+    background-color: transparent;
+}
+
+#section-content {
+    position: static;
+    margin-top: 100px;
+    z-index: 1;
+    padding-bottom: 0px;
+}
 @-ms-viewport {
     width: device-width;
 }
@@ -74,11 +99,11 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #212529;
+    color: #000000;
     text-align: left;
     background-color: #fff;
 }
-[tabindex="-1"]:focus {
+[tabindex="1"]:focus {
     outline: 0 !important;
 }
 hr {

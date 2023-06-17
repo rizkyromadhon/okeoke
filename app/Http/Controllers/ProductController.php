@@ -31,6 +31,8 @@ class ProductController extends Controller
             'product_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $product_short_des = $request->input('product_short_des');
+        $product_long_des = $request->input('product_long_des');
 
         $image = $request->file('product_img');
         $img_name = hexdec(uniqid()).'.'. $image->getClientOriginalExtension();
@@ -45,8 +47,8 @@ class ProductController extends Controller
 
         Product::insert([
             'product_name' => $request->product_name,
-            'product_short_des' => $request->product_short_des,
-            'product_long_des' => $request->product_long_des,
+            'product_short_des' => $product_short_des,
+            'product_long_des' => $product_long_des,
             'price' => $request->price,
             'product_category_name' => $category_name,
             'product_subcategory_name' => $subcategory_name,
@@ -123,6 +125,24 @@ class ProductController extends Controller
         SubCategory::where('id', $subcat_id)->decrement('product_count', 1);
 
         return redirect()->route('allproducts')->with('message', 'Product Deleted Successfully!');
+    }
+
+    public function search(Request $request) {
+        $keyword = $request->input('keyword');
+        
+        $products = Product::where('product_name', 'like', '%' . $keyword . '%')->orWhere('product_category_name', 'like', '%' . $keyword . '%')
+        ->orWhere('product_subcategory_name', 'like', '%' . $keyword . '%')
+        ->orderByRaw("CASE
+            WHEN product_name LIKE '%$keyword%' THEN 1
+            WHEN product_category_name LIKE '%$keyword%' THEN 2
+            WHEN product_subcategory_name LIKE '%$keyword%' THEN 3
+            ELSE 4
+            END")->get();
+        
+        return view('admin.product.search', [
+        'title' => 'Search Product',
+        'products' => $products, 
+        'keyword' => $keyword], compact('products', 'keyword'));
     }
 }
 

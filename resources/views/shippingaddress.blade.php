@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="container mt-5">
-        <h2 class="fw-bold">Barangnya mau dikirim dimana nih? :)</h2>
+    <div class="container mt-5 mb-5" id="section-content">
+        <h2 class="fw-bold" id="section-content">Barangnya mau dikirim dimana nih? :)</h2>
         <div class="row">
             <div class="col-12">
                 <div class="card card-body">
@@ -24,7 +24,7 @@
                         </div>
 
                         <input type="submit" value="Lanjut" name="" class="btn btn-primary">
-                        <a href="{{ route('home') }}" class="btn btn-danger">Gak jadi</a>
+                        <a href="{{ route('home') }}" class="btn btn-danger">Batalkan</a>
                     </form>
                 </div>
             </div>

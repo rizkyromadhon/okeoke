@@ -35,6 +35,8 @@ Route::controller(ClientController::class)->group(function() {
     Route::get('/product-details/{id}/{slug}', 'singleProduct')->name('singleproduct');
 });
 
+Route::get('/product/search', [ProductController::class, 'search'])->name('productSearch');
+
 Route::middleware(['auth', 'cekrole:user,admin'])->group(function() {
     Route::controller(ClientController::class)->group(function() {
         Route::get('/add-to-cart', 'addToCart')->name('addtocart');
@@ -61,7 +63,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth', 'cekrole:admin'])->group(function () {
-    Route::controller(AdminController::class)->group(function (){
+    Route::controller(AdminController::class)->group(function () {
         Route::get('/admin', 'index');
     });
     Route::controller(CategoryController::class)->group(function () {

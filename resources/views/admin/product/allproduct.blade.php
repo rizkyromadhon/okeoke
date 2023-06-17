@@ -15,9 +15,10 @@
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
-                            <th>PRODUCT NAME</th>
-                            <th>IMAGE</th>
-                            <th>PRICE</th>
+                            <th>NAMA PRODUK</th>
+                            <th>FOTO PRODUK</th>
+                            <th>HARGA</th>
+                            <th>STOK</th>
                             <th>ACTIONS</th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                                         Image</a>
                                 </td>
                                 <td>@currency($product->price)</td>
+                                <td>{{ $product->quantity }}</td>
                                 <td>
                                     <a href="{{ route('editproduct', $product->id) }}" class="btn btn-primary">Edit</a>
                                     <a href="{{ route('deleteproduct', $product->id) }}" class="btn btn-warning">Delete</a>
